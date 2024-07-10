@@ -1,0 +1,10 @@
+FROM microsoft/aspnetcore-build AS builder WORKDIR / source
+
+COPY *.csproj
+RUN dotnet restore
+COPY . .
+RUN dotnet publish --output /app/ --configuration Release
+FROM microsoft/aspnetcore
+WORKDIR /ap
+COPY --from=builder /app .
+EXPOSE 50000
